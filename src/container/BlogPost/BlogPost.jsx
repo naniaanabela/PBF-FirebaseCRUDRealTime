@@ -6,15 +6,6 @@ import firebase from "firebase";
 import firebaseConfig from "../../firebase/config";
 
 class BlogPost extends Component{
-    // state = {                    // komponen state dari React untuk statefull component
-    //     listArtikel: [],         // variabel array yang digunakan untuk menyimpan data API
-    //     insertArtikel: {         // variable yang digunakan untuk menampung sementara data yang akan di insert
-    //         userId: 1,           // kolom userId, id, title, dan body sama, mengikuti kolom yang ada pada listArtikel.json
-    //         id: 1,
-    //         title: "",
-    //         body: ""
-    //     }
-    // }
     constructor(props){
         super(props);
         firebase.initializeApp(firebaseConfig);
@@ -30,11 +21,6 @@ class BlogPost extends Component{
             const state = snapshot.val();
             this.setState(state);   
         })
-        // API.getNewsBlog().then(result => {
-        //     this.setState({
-        //         listArtikel: result
-        //     })
-        // })
     }
 
     simpanDataKeServerAPI = () => {
@@ -52,10 +38,6 @@ class BlogPost extends Component{
     }
 
     handleHapusArtikel = (idArtikel) => {        // fungsi yang meng-handle button action hapus data
-        // API.deleteNewsBlog(data)
-        //     .then(res => {      // ketika proses hapus berhasil, maka ambil data dari server API lokal
-        //         this.ambilDataDariServerAPI()
-        //     })
         const {listArtikel} = this.state;
         const newState = listArtikel.filter(data => {
             return data.uid !== idArtikel;
@@ -74,10 +56,6 @@ class BlogPost extends Component{
     }
 
     handleTombolSimpan = (event) => {            // fungsi untuk meng-handle tombol simpan
-        // API.postNewsBlog(this.state.insertArtikel)
-        //     .then( (response) => {
-        //         this.ambilDataDariServerAPI();                  // reload / refresh data
-        //     });
         let title = this.refs.judulArtikel.value;
         let body = this.refs.isiArtikel.value;
         let uid = this.refs.uid.value;
@@ -109,13 +87,15 @@ class BlogPost extends Component{
                     <div className="form-group row">
                         <label htmlFor="title" className="col-sm-2 col-form-label">Judul</label>
                         <div className="col-sm-10">
-                            <input type="text" className="form-control" id="title" name="title" ref="judulArtikel" onChange={this.handleTambahArtikel}/>
+                            <input type="text" className="form-control" id="title" name="title" ref="judulArtikel" 
+                            onChange={this.handleTambahArtikel}/>
                         </div>
                     </div>
                     <div className="form-group row">
                         <label htmlFor="body" className="col-sm-2 col-form-label">Isi</label>
                         <div className="col-sm-10">
-                            <textarea className="form-control" id="body" name="body" rows="3" ref="isiArtikel" onChange={this.handleTambahArtikel}></textarea>
+                            <textarea className="form-control" id="body" name="body" rows="3" ref="isiArtikel" 
+                            onChange={this.handleTambahArtikel}></textarea>
                         </div>
                     </div>
                     <input type="hidden" name="uid" ref="uid"/>
@@ -124,7 +104,8 @@ class BlogPost extends Component{
                 <h2>Daftar Artikel</h2>
                 {
                     this.state.listArtikel.map(artikel => {  // looping dan masukkan untuk setiap data yang ada di listArtikel ke variabel artikel
-                        return <Post key={artikel.uid} judul={artikel.title} isi={artikel.body} idArtikel={artikel.uid} hapusArtikel={this.handleHapusArtikel}/>     // mappingkan data json dari API sesuai dengan kategorinya
+                        return <Post key={artikel.uid} judul={artikel.title} isi={artikel.body} 
+                        idArtikel={artikel.uid} hapusArtikel={this.handleHapusArtikel}/>     // mappingkan data json dari API sesuai dengan kategorinya
                     })
                 }
             </div>
